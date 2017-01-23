@@ -49,7 +49,7 @@ open class UISideMenuNavigationController: UINavigationController {
         // we had presented a view before, so lets dismiss ourselves as already acted upon
         if view.isHidden {
             SideMenuTransition.hideMenuComplete()
-            dismiss(animated: false, completion: { () -> Void in
+            presentingViewController?.dismiss(animated: false, completion: { () -> Void in
                 self.view.isHidden = false
             })
         }
@@ -136,7 +136,7 @@ open class UISideMenuNavigationController: UINavigationController {
         // is dismissed after showing the appropriate screen
         CATransaction.begin()
         CATransaction.setCompletionBlock( { () -> Void in
-            self.dismiss(animated: true, completion: nil)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
             self.visibleViewController?.viewWillAppear(false) // Hack: force selection to get cleared on UITableViewControllers when reappearing using custom transitions
         })
         
