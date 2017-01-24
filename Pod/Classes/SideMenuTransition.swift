@@ -52,7 +52,11 @@ open class SideMenuTransition: UIPercentDrivenInteractiveTransition, UIViewContr
     
     fileprivate class var viewControllerForPresentedMenu: UIViewController? {
         get {
-            return SideMenuManager.menuLeftNavigationController?.presentingViewController != nil ? SideMenuManager.menuLeftNavigationController?.presentingViewController : SideMenuManager.menuRightNavigationController?.presentingViewController
+            if SideMenuManager.viewControllerForPresentedMenu != nil {
+                return SideMenuManager.viewControllerForPresentedMenu
+            } else {
+                return SideMenuManager.menuLeftNavigationController?.presentingViewController != nil ? SideMenuManager.menuLeftNavigationController?.presentingViewController : SideMenuManager.menuRightNavigationController?.presentingViewController
+            }
         }
     }
     
@@ -105,10 +109,11 @@ open class SideMenuTransition: UIPercentDrivenInteractiveTransition, UIViewContr
                 SideMenuTransition.presentDirection = translation.x > 0 ? .left : .right
             }
             
-            if let menuViewController = SideMenuTransition.presentDirection == .left ? SideMenuManager.menuLeftNavigationController : SideMenuManager.menuRightNavigationController,
-                let visibleViewController = visibleViewController {
-                singleton.interactive = true
-                visibleViewController.present(menuViewController, animated: true, completion: nil)
+            if let menuViewController = SideMenuTransition.presentDirection == .left ? SideMenuManager.menuLeftNavigationController : SideMenuManager.menuRightNavigationController {
+                if let presentingViewController = viewControllerForPresentedMenu != nil ? viewControllerForPresentedMenu! : visibleViewController {
+                    singleton.interactive = true
+                    presentingViewController.present(menuViewController, animated: true, completion: nil)
+                }
             }
         }
         
@@ -459,7 +464,7 @@ open class SideMenuTransition: UIPercentDrivenInteractiveTransition, UIViewContr
             menuViewController.presentedViewController == nil {
             SideMenuTransition.hideMenuStart()
             SideMenuTransition.hideMenuComplete()
-            menuViewController.dismiss(animated: false, completion: nil)
+            menuViewController.presentingViewController?.dismiss(animated: false, completion: nil)
         }
     }
     

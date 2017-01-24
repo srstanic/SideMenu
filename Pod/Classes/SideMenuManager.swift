@@ -95,7 +95,9 @@ open class SideMenuManager : NSObject {
     
     /// When true, pushViewController will replace the last view controller in the navigation controller's viewController stack instead of appending to it. This makes menus similar to tab bar controller behavior.
     open static var menuReplaceOnPush: Bool = false
-    
+
+    open static var viewControllerForPresentedMenu: UIViewController? = nil
+
     /// -Warning: Deprecated. Use `menuAnimationTransformScaleFactor` instead.
     @available(*, deprecated, renamed: "menuAnimationTransformScaleFactor")
     open static var menuAnimationShrinkStrength: CGFloat {
