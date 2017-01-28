@@ -124,6 +124,7 @@ open class SideMenuTransition: UIPercentDrivenInteractiveTransition {
                     presentingViewController.present(menuViewController, animated: true, completion: nil)
                 } else {
 					return
+                }
             }
         }
         
