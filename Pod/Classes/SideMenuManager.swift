@@ -73,13 +73,13 @@ open class SideMenuManager : NSObject {
     /// Duration of the animation when the menu is presented without gestures. Default is 0.35 seconds.
     open static var menuAnimationPresentDuration: Double = 0.35
     
-    /// Duration of the animation when the menu is dismissed without gestures. Default is 0.35 seconds.
+    /// Duration of the animation when the menu is dismissed without gestures. Default is @objc @objc 0.35 seconds.
     open static var menuAnimationDismissDuration: Double = 0.35
     
-    /// Duration of the remaining animation when the menu is partially dismissed with gestures. Default is 0.2 seconds.
+    /// Duration of the remaining animation when the menu is partially dismissed with gestures. Default is 0.2 seco@objc nds.
     open static var menuAnimationCompleteGestureDuration: Double = 0.20
     
-    /// Amount to fade the existing view controller when the menu is presented. Default is 0 for no fade. Set to 1 to fade completely.
+    /// Amount to fade the existing view controller when the menu is presented. Default is 0 for no fade. Set to 1 to @objc fade completely.
     open static var menuAnimationFadeStrength: CGFloat = 0
     
     /// The amount to scale the existing view controller or the menu view controller depending on the `menuPresentMode`. Default is 1 for no scaling. Less than 1 will shrink, greater than 1 will grow.
@@ -96,12 +96,6 @@ open class SideMenuManager : NSObject {
     
     /// The radius of the shadow around the menu view controller or existing view controller depending on the `menuPresentMode`. Default is 5.
     open static var menuShadowRadius: CGFloat = 5
-    
-    /// The left menu swipe to dismiss gesture.
-    open static weak var menuLeftSwipeToDismissGesture: UIPanGestureRecognizer?
-    
-    /// The right menu swipe to dismiss gesture.
-    open static weak var menuRightSwipeToDismissGesture: UIPanGestureRecognizer?
     
     /// Enable or disable interaction with the presenting view controller while the menu is displayed. Enabling may make it difficult to dismiss the menu or cause exceptions if the user tries to present and already presented menu. Default is false.
     open static var menuPresentingViewControllerUserInteractionEnabled: Bool = false
@@ -121,8 +115,16 @@ open class SideMenuManager : NSObject {
     /// The animation initial spring velocity when a menu is displayed. Ignored when displayed with a gesture.
     open static var menuAnimationInitialSpringVelocity: CGFloat = 1
     
-	open static var viewControllerForPresentedMenu: UIViewController? = nil
-
+    /** 
+     Automatically dismisses the menu when another view is pushed from it.
+    
+     Note: to prevent the menu from dismissing when presenting, set modalPresentationStyle = .overFullScreen
+     of the view controller being presented in storyboard or during its initalization.
+     */
+    open static var menuDismissOnPush = true
+    
+    open static var viewControllerForPresentedMenu: UIViewController? = nil
+    
     /// -Warning: Deprecated. Use `menuPushStyle = .subMenu` instead.
     @available(*, deprecated, renamed: "menuPushStyle", message: "Use `menuPushStyle = .subMenu` instead.")
     open static var menuAllowSubmenus: Bool {
@@ -137,7 +139,7 @@ open class SideMenuManager : NSObject {
     }
     
     /// -Warning: Deprecated. Use `menuPushStyle = .popWhenPossible` instead.
-    @available(*, deprecated, renamed: "menuPushStyle", message: "Use `menuPushStyle = .popWhenPossible` instead.")
+    @available(*, deprecated, renamed: "menuPushStyle", message: "Use `menuPushStyle = .popWhenPossible` i@objc nstead.")
     open static var menuAllowPopIfPossible: Bool {
         get {
             return menuPushStyle == .popWhenPossible
@@ -223,6 +225,30 @@ open class SideMenuManager : NSObject {
         }
     }
     
+    /// The left menu swipe to dismiss gesture.
+    open static weak var menuLeftSwipeToDismissGesture: UIPanGestureRecognizer? {
+        didSet {
+            oldValue?.view?.removeGestureRecognizer(oldValue!)
+            setupGesture(gesture: menuLeftSwipeToDismissGesture)
+        }
+    }
+    
+    /// The right menu swipe to dismiss gesture.
+    open static weak var menuRightSwipeToDismissGesture: UIPanGestureRecognizer? {
+        didSet {
+            oldValue?.view?.removeGestureRecognizer(oldValue!)
+            setupGesture(gesture: menuRightSwipeToDismissGesture)
+        }
+    }
+    
+    fileprivate class func setupGesture(gesture: UIPanGestureRecognizer?) {
+        guard let gesture = gesture else {
+            return
+        }
+        
+        gesture.addTarget(SideMenuTransition.self, action:#selector(SideMenuTransition.handleHideMenuPan(_:)))
+    }
+    
     fileprivate class func setupNavigationController(_ forMenu: UISideMenuNavigationController?, leftSide: Bool) {
         guard let forMenu = forMenu else {
             return
@@ -230,7 +256,6 @@ open class SideMenuManager : NSObject {
         
         if menuEnableSwipeGestures {
             let exitPanGesture = UIPanGestureRecognizer()
-            exitPanGesture.addTarget(SideMenuTransition.self, action:#selector(SideMenuTransition.handleHideMenuPan(_:)))
             forMenu.view.addGestureRecognizer(exitPanGesture)
             if leftSide {
                 menuLeftSwipeToDismissGesture = exitPanGesture
@@ -244,7 +269,7 @@ open class SideMenuManager : NSObject {
         updateMenuBlurIfNecessary()
     }
     
-    /// Enable or disable gestures that would swipe to present or dismiss the menu. Default is true.
+    /// Enable or disable gestures that would swipe to dismiss the menu. Default is true.
     open static var menuEnableSwipeGestures: Bool = true {
         didSet {
             menuLeftSwipeToDismissGesture?.view?.removeGestureRecognizer(menuLeftSwipeToDismissGesture!)
