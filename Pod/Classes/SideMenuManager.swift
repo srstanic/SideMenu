@@ -71,10 +71,10 @@ open class SideMenuManager : NSObject {
     static var menuWidth: CGFloat = max(round(min((appScreenRect.width), (appScreenRect.height)) * 0.75), 240)
     
     /// Duration of the animation when the menu is presented without gestures. Default is 0.35 seconds.
-    static var menuAnimationPresentDuration: Double = 0.35
+    public static var menuAnimationPresentDuration: Double = 0.35
     
     /// Duration of the animation when the menu is dismissed without gestures. Default is @objc @objc 0.35 seconds.
-    static var menuAnimationDismissDuration: Double = 0.35
+    public static var menuAnimationDismissDuration: Double = 0.35
     
     /// Duration of the remaining animation when the menu is partially dismissed with gestures. Default is 0.2 seco@objc nds.
     static var menuAnimationCompleteGestureDuration: Double = 0.20
@@ -104,7 +104,7 @@ open class SideMenuManager : NSObject {
     static var menuParallaxStrength: Int = 0
     
     /// Draws the `menuAnimationBackgroundColor` behind the status bar. Default is true.
-    static var menuFadeStatusBar = true
+    public static var menuFadeStatusBar = true
     
     /// The animation options when a menu is displayed. Ignored when displayed with a gesture.
     static var menuAnimationOptions: UIView.AnimationOptions = .curveEaseInOut
@@ -123,7 +123,7 @@ open class SideMenuManager : NSObject {
      */
     static var menuDismissOnPush = true
     
-    static var viewControllerForPresentedMenu: UIViewController? = nil
+    public static var viewControllerForPresentedMenu: UIViewController? = nil
     
     /// -Warning: Deprecated. Use `menuPushStyle = .subMenu` instead.
     @available(*, deprecated, renamed: "menuPushStyle", message: "Use `menuPushStyle = .subMenu` instead.")
