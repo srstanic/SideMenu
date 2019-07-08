@@ -142,7 +142,7 @@ There are six modes in MenuPushStyle:
 - replace: Any existing view controllers are released from the stack and replaced with the pushed view controller. Back buttons are automatically hidden. This behavior is ideal if view controllers require a lot of memory or their state doesn't need to be preserved..
 - subMenu: Unlike all other behaviors that push using the menu's presentingViewController, this behavior pushes view controllers within the menu.  Use this behavior if you want to display a sub menu.
 */
-open static var menuPushStyle: MenuPushStyle = .defaultBehavior
+static var menuPushStyle: MenuPushStyle = .defaultBehavior
 
 /**
 The presentation mode of the menu.
@@ -153,64 +153,64 @@ There are four modes in MenuPresentMode:
 - viewSlideInOut: The existing view slides out while the menu slides in.
 - menuDissolveIn: The menu dissolves in over the existing view controller.
 */
-open static var menuPresentMode: MenuPresentMode = .viewSlideOut
+static var menuPresentMode: MenuPresentMode = .viewSlideOut
 
 /// Prevents the same view controller (or a view controller of the same class) from being pushed more than once. Defaults to true.
-open static var menuAllowPushOfSameClassTwice = true
+static var menuAllowPushOfSameClassTwice = true
 
 /// Width of the menu when presented on screen, showing the existing view controller in the remaining space. Default is 75% of the screen width.
-open static var menuWidth: CGFloat = max(round(min((appScreenRect.width), (appScreenRect.height)) * 0.75), 240)
+static var menuWidth: CGFloat = max(round(min((appScreenRect.width), (appScreenRect.height)) * 0.75), 240)
 
 /// Duration of the animation when the menu is presented without gestures. Default is 0.35 seconds.
-open static var menuAnimationPresentDuration = 0.35
+static var menuAnimationPresentDuration = 0.35
 
 /// Duration of the animation when the menu is dismissed without gestures. Default is 0.35 seconds.
-open static var menuAnimationDismissDuration = 0.35
+static var menuAnimationDismissDuration = 0.35
 
 /// Amount to fade the existing view controller when the menu is presented. Default is 0 for no fade. Set to 1 to fade completely.
-open static var menuAnimationFadeStrength: CGFloat = 0
+static var menuAnimationFadeStrength: CGFloat = 0
 
 /// The amount to scale the existing view controller or the menu view controller depending on the `menuPresentMode`. Default is 1 for no scaling. Less than 1 will shrink, greater than 1 will grow.
-open static var menuAnimationTransformScaleFactor: CGFloat = 1
+static var menuAnimationTransformScaleFactor: CGFloat = 1
 
 /// The background color behind menu animations. Depending on the animation settings this may not be visible. If `menuFadeStatusBar` is true, this color is used to fade it. Default is black.
-open static var menuAnimationBackgroundColor: UIColor?
+static var menuAnimationBackgroundColor: UIColor?
 
 /// The shadow opacity around the menu view controller or existing view controller depending on the `menuPresentMode`. Default is 0.5 for 50% opacity.
-open static var menuShadowOpacity: Float = 0.5
+static var menuShadowOpacity: Float = 0.5
 
 /// The shadow color around the menu view controller or existing view controller depending on the `menuPresentMode`. Default is black.
-open static var menuShadowColor = UIColor.black
+static var menuShadowColor = UIColor.black
 
 /// The radius of the shadow around the menu view controller or existing view controller depending on the `menuPresentMode`. Default is 5.
-open static var menuShadowRadius: CGFloat = 5
+static var menuShadowRadius: CGFloat = 5
 
 /// The left menu swipe to dismiss gesture.
-open static weak var menuLeftSwipeToDismissGesture: UIPanGestureRecognizer?
+static weak var menuLeftSwipeToDismissGesture: UIPanGestureRecognizer?
 
 /// The right menu swipe to dismiss gesture.
-open static weak var menuRightSwipeToDismissGesture: UIPanGestureRecognizer?
+static weak var menuRightSwipeToDismissGesture: UIPanGestureRecognizer?
 
 /// Enable or disable gestures that would swipe to dismiss the menu. Default is true.
-open static var menuEnableSwipeGestures: Bool = true
+static var menuEnableSwipeGestures: Bool = true
 
 /// Enable or disable interaction with the presenting view controller while the menu is displayed. Enabling may make it difficult to dismiss the menu or cause exceptions if the user tries to present and already presented menu. Default is false.
-open static var menuPresentingViewControllerUserInteractionEnabled: Bool = false
+static var menuPresentingViewControllerUserInteractionEnabled: Bool = false
 
 /// The strength of the parallax effect on the existing view controller. Does not apply to `menuPresentMode` when set to `ViewSlideOut`. Default is 0.
-open static var menuParallaxStrength: Int = 0
+static var menuParallaxStrength: Int = 0
 
 /// Draws the `menuAnimationBackgroundColor` behind the status bar. Default is true.
-open static var menuFadeStatusBar = true
+static var menuFadeStatusBar = true
 
 /// The animation options when a menu is displayed. Ignored when displayed with a gesture.
-open static var menuAnimationOptions: UIViewAnimationOptions = .curveEaseInOut
+static var menuAnimationOptions: UIViewAnimationOptions = .curveEaseInOut
 
 /// The animation spring damping when a menu is displayed. Ignored when displayed with a gesture.
-open static var menuAnimationUsingSpringWithDamping: CGFloat = 1
+static var menuAnimationUsingSpringWithDamping: CGFloat = 1
 
 /// The animation initial spring velocity when a menu is displayed. Ignored when displayed with a gesture.
-open static var menuAnimationInitialSpringVelocity: CGFloat = 1
+static var menuAnimationInitialSpringVelocity: CGFloat = 1
 
 /** 
 Automatically dismisses the menu when another view is pushed from it.
@@ -218,20 +218,20 @@ Automatically dismisses the menu when another view is pushed from it.
 Note: to prevent the menu from dismissing when presenting, set modalPresentationStyle = .overFullScreen
 of the view controller being presented in storyboard or during its initalization.
 */
-open static var menuDismissOnPush = true
+static var menuDismissOnPush = true
 
 /**
  The blur effect style of the menu if the menu's root view controller is a UITableViewController or UICollectionViewController.
 
  - Note: If you want cells in a UITableViewController menu to show vibrancy, make them a subclass of UITableViewVibrantCell.
  */
-open static var menuBlurEffectStyle: UIBlurEffectStyle?
+static var menuBlurEffectStyle: UIBlurEffectStyle?
 
 /// The left menu.
-open static var menuLeftNavigationController: UISideMenuNavigationController?
+static var menuLeftNavigationController: UISideMenuNavigationController?
 
 /// The right menu.
-open static var menuRightNavigationController: UISideMenuNavigationController?
+static var menuRightNavigationController: UISideMenuNavigationController?
 
 /**
  Adds screen edge gestures to a view to present a menu.

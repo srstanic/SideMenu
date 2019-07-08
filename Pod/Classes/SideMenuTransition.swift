@@ -51,8 +51,8 @@ open class SideMenuTransition: UIPercentDrivenInteractiveTransition {
     // prevent instantiation
     fileprivate override init() {
         super.init()
-        NotificationCenter.default.addObserver(self, selector:#selector(SideMenuTransition.handleNotification), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        NotificationCenter.default.addObserver(self, selector:#selector(SideMenuTransition.handleNotification), name: NSNotification.Name.UIApplicationWillChangeStatusBarFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(SideMenuTransition.handleNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(SideMenuTransition.handleNotification), name: UIApplication.willChangeStatusBarFrameNotification, object: nil)
     }
     
     deinit {
@@ -383,7 +383,7 @@ open class SideMenuTransition: UIPercentDrivenInteractiveTransition {
             originalSuperview.addSubview(mainViewController.view)
         }
         
-        if notification.name == NSNotification.Name.UIApplicationDidEnterBackground {
+        if notification.name == UIApplication.didEnterBackgroundNotification {
             SideMenuTransition.hideMenuStart()
             SideMenuTransition.hideMenuComplete()
             menuViewController.presentingViewController?.dismiss(animated: false, completion: nil)
@@ -504,7 +504,7 @@ extension SideMenuTransition: UIViewControllerAnimatedTransitioning {
                     SideMenuTransition.tapView = tapView
                 }
                 if let statusBarView = SideMenuTransition.statusBarView {
-                    container.bringSubview(toFront: statusBarView)
+                    container.bringSubviewToFront(statusBarView)
                 }
                 
                 return
